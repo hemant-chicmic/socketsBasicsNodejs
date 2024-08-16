@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Socket.IO chat</title>
+    <style>
+      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+      #form { background: #c001ff; padding: 0.25rem; position: fixed; bottom: 30px; left: 0; right: 0; display: flex; height: 6rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+      
+      #input { 
+        border: none; 
+        padding: 0 1rem; 
+        flex-grow: 1; 
+        border-radius: 2rem; 
+        margin: 1rem;  
+        font-size: larger ;
+      }
+
+      #input:focus { 
+        outline: none; 
+      }
+      
+      #form > button { 
+        background: #01fc98; 
+        border: none; 
+        padding: 0 2rem; /* Increased padding to make button wider */
+        margin: 0.25rem; 
+        border-radius: 3px; 
+        outline: none; 
+        color: #470ecb; 
+        width: 250px; /* Set a specific width for the button */
+        font-size:xx-large ; 
+        font-weight: bolder;
+        cursor: pointer;
+      }
+
+      #messages { 
+        list-style-type: none; 
+        margin: 0; 
+        padding: 0; 
+      }
+      
+      #messages > li { 
+        padding: 0.5rem 1rem; 
+      }
+      
+      #messages > li:nth-child(odd) { 
+        background: #b2cfcd; 
+      }
+    </style>
+  </head>
+
+
+
+
+  <body>
+
+
+
+    <h1>Hello this is a simple socket io page for chatting</h1>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" />
+      <button>Send</button>
+    </form>
+
+
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const form = document.getElementById( 'form' ) ; 
+    const input = document.getElementById( 'input' ) ; 
+    const messages = document.getElementById('messages');
+
+
+    form.addEventListener( 'submit' , (e) => {
+      e.preventDefault() ; 
+      if( input.value )
+      {
+          socket.emit( 'chat message' , input.value ) ; 
+          input.value = ' ' ; 
+      }
+    } )
+
+    socket.on('chat message', (msg) => {
+      const item = document.createElement('li');
+      item.textContent = msg;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+
+  </script>
+
+
+
+
+  </body>
+</html>
+
+
+
+
+
+
